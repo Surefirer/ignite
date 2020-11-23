@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 //components
 import Game from "../components/Game";
 
 const Home = () => {
+  // Get the current location
+  const location = useLocation();
+  const pathId = location.pathname.split("/")[2];
+  // Fetch games
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadGames());
@@ -18,7 +23,7 @@ const Home = () => {
 
   return (
     <GameList>
-      <GameDetail />
+      {pathId && <GameDetail />}
       <h2>Upcoming Games</h2>
       <Games>
         {upcoming.map((game) => (
@@ -72,6 +77,7 @@ const Games = styled(motion.div)`
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   grid-column-gap: 3rem;
   grid-row-gap: 5rem;
+  cursor: pointer;
 `;
 
 export default Home;
